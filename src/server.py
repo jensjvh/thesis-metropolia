@@ -17,15 +17,12 @@ async def main():
     await server.init()
     server.set_endpoint("opc.tcp://0.0.0.0:4840/freeopcua/server/")
 
-    # set up our own namespace, not really necessary but should as spec
     uri = "test"
     idx = await server.register_namespace(uri)
 
-    # populating our address space
-    # server.nodes, contains links to very common nodes like objects and root
-    myobj = await server.nodes.objects.add_object(idx, "MyObject")
-    myvar = await myobj.add_variable(idx, "MyVariable", 6.7)
-    # Set MyVariable to be writable by clients
+    myobj = await server.nodes.objects.add_object(idx, "Object")
+    myvar = await myobj.add_variable(idx, "Variable", 6.7)
+
     await myvar.set_writable()
     await server.nodes.objects.add_method(
         ua.NodeId("ServerMethod", idx),
@@ -34,10 +31,10 @@ async def main():
         [ua.VariantType.Int64],
         [ua.VariantType.Int64],
     )
-    _logger.info("Starting server!")
+    _logger.info("Starting server")
     async with server:
         while True:
-            await asyncio.sleep(10)
+            await asyncio.sleep(5)
             new_val = await myvar.get_value() + 0.1
             _logger.info("Set value of %s to %.1f", myvar, new_val)
             await myvar.write_value(new_val)
