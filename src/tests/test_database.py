@@ -23,9 +23,9 @@ class TestDatabase(unittest.TestCase):
         self.mock_pool.getconn.return_value = self.mock_connection
         
         self.db_config = DBConfig(
-            dbname="heljens",
-            user="heljens",
-            password="heljens",
+            dbname="user",
+            user="user",
+            password="passwd",
             host="localhost",
             port="5432"
         )

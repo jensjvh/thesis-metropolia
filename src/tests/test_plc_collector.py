@@ -13,9 +13,9 @@ from config import Config, PLCConfig, DBConfig
 class TestPLCCollector(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
         db_config = DBConfig(
-            dbname="heljens",
-            user="heljens", 
-            password="heljens",
+            dbname="user",
+            user="user", 
+            password="passwd",
             host="localhost",
             port="5432"
         )
