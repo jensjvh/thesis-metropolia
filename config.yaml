@@ -22,6 +22,29 @@ plcs:
     # Value recording settings
     value_deadband_percent: 1.0  # Only record if n% change from last value
     value_deadband_absolute: 0.0  # Absolute deadband value
+  - name: plc2
+    url: "opc.tcp://localhost:4841/freeopcua/server/"
+    auto_discover: true
+    nodes:
+      # "ns=2;i=2": "Temperature"
+    discover_depth: 2
+    discover_throttle_ms: 200
+    discover_paths: 
+      - "/Objects"
+    # Optional security
+    security_mode: None  # None, Sign, SignAndEncrypt
+    security_policy: ""  # Basic256Sha256, etc.
+    # Optional authentication
+    username: ""
+    password: ""
+    # Subscription settings
+    subscription_interval: 500  # ms
+    # Data buffering settings
+    buffer_size: 100  # max records to buffer before batch DB write
+    buffer_flush_interval: 5  # seconds
+    # Value recording settings
+    value_deadband_percent: 1.0  # Only record if n% change from last value
+    value_deadband_absolute: 0.0  # Absolute deadband value
 
 database:
   dbname: user
