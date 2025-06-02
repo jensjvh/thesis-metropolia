@@ -6,16 +6,16 @@ A Python application for collecting data from OPC UA PLC devices and storing it 
 
 - Connect to multiple OPC UA PLC sources
 - Auto-discover available nodes on PLCs
-- Real-time data collection via subscriptions (with fallback to polling)
+- Real-time data collection via subscriptions
 - Configurable value filtering with deadband support
 - Efficient batch storage in TimescaleDB
-- Automatic data retention policies
-- Robust error handling and reconnection
+- Error handling and reconnection
 
 ## Requirements
 
 - Python 3.10+
 - PostgreSQL with TimescaleDB extension
+- For laboratory use: OPC UA compatible PLC(s)
 
 ## Installation
 
@@ -52,7 +52,7 @@ sudo apt install postgresql
 
 # Create database
 sudo -u postgres createuser -P username
-sudo -u postgres createdb -O username username
+sudo -u postgres createdb -O username database_name
 
 # Enable TimescaleDB
 sudo -u postgres psql -d username -c "CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;"
@@ -66,15 +66,26 @@ Edit the `config.yaml` file to configure your PLC connections and database setti
 plcs:
   - name: plc1
     url: "opc.tcp://localhost:4840/freeopcua/server/"
-    auto_discover: true
-    # Add other PLC settings as needed
+    auto_discover: false
+    discover_depth: 2
+    discover_throttle_ms: 200
+    discover_paths:
+      - "/Objects"
+    # Optional: specific nodes
+    nodes:
+      "ns=2;i=2": "Temperature"
+    # Value recording settings
+    value_deadband_percent: 1.0
+    value_deadband_absolute: 0.0
 
 database:
-  dbname: username
+  dbname: database_name
   user: username
   password: yourpassword
   host: localhost
   port: 5432
+  min_connections: 1
+  max_connections: 5
 ```
 
 ## Usage
