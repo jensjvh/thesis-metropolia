@@ -15,35 +15,31 @@ A Python application for collecting data from OPC UA PLC devices and storing it 
 ## Requirements
 
 - Python 3.10+
-- PostgreSQL with TimescaleDB extension (recommended)
+- PostgreSQL with TimescaleDB extension
 
 ## Installation
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/jensjvh/thesis_metropolia.git
-cd thesis_metropolia
+git clone https://github.com/jensjvh/thesis-metropolia.git
+cd thesis-metropolia
 ```
 
 ### 2. Set up Python environment
 
 Using Poetry (recommended):
 ```bash
-# Install Poetry if needed
 pip install poetry
 
-# Install dependencies 
 poetry install
 ```
 
 Using pip:
 ```bash
-# Create and activate a virtual environment
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# Install dependencies
 pip install -r requirements.txt
 ```
 
@@ -51,15 +47,14 @@ pip install -r requirements.txt
 
 Install PostgreSQL and TimescaleDB:
 ```bash
-# Ubuntu/Debian
 sudo apt install postgresql
-# Follow TimescaleDB installation from https://docs.timescale.com/install/latest/
+# Follow TimescaleDB installation from https://docs.timescale.com/self-hosted/latest/install/
 
 # Create database
 sudo -u postgres createuser -P username
 sudo -u postgres createdb -O username username
 
-# Enable TimescaleDB extension
+# Enable TimescaleDB
 sudo -u postgres psql -d username -c "CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;"
 ```
 
